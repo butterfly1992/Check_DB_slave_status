@@ -1,0 +1,26 @@
+1.使用mysql_slave_status.sh脚本，并给脚本添加权限 
+chmod +x mysql_slave_status.sh
+
+2.修改etc/mail.rc下文件，添加以下
+set from=发件人
+set smtp=smtp.263.net
+set smtp-auth-user=用户名
+set smtp-auth-password=密码
+set smtp-auth=login
+
+esc 然后：wq
+输入以下命令：echo "hello"|mail -s "hellotest" 收件人（保证收件人邮箱不拦截）
+
+
+
+3.定时任务
+crontab -l 查看是否有定时任务
+crontab -e 输入以下命令：5分钟执行一次
+*/5 * * * * bash /mnt/sqlsh/mysql_slave_status.sh
+保存
+重启crontab
+#yum install -y vixie-cron安装计划任务,存在系统未安装的情况
+chkconfig crond on #设为开机启动
+service crond start #启动
+
+4.若出现同步不一致问题是，可执行sql_slave_skip.sh脚本命令，保证主从一致
