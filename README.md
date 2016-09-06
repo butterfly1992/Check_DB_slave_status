@@ -1,0 +1,2 @@
+# Check_DB_slave_status
+定时检测数据库主从状态并发送邮件
